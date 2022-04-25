@@ -18,7 +18,10 @@ class PostController extends Controller
         // ]);
         // dd($validated);
 
-        $input = $request->all();
+           $validated = $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+        ]);
         $form_data['title'] = $request->title;
         $form_data['content'] = $request->content;
         return view('show', compact('form_data'));
