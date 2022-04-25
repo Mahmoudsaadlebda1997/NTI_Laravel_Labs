@@ -11,15 +11,17 @@ class PostController extends Controller
         return view('task');
     }
     function Store(Request $request){
-        try{
-            $validated = $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-        ]);
-        dd($validated);
-        }
-        catch (\Throwable $th){
-            echo "Enter Data To Create The Content";
-        }
+
+        //     $validated = $request->validate([
+        //     'title' => 'required',
+        //     'content' => 'required',
+        // ]);
+        // dd($validated);
+
+        $input = $request->all();
+        $form_data['title'] = $request->title;
+        $form_data['content'] = $request->content;
+        return view('show', compact('form_data'));
+
     }
 }
