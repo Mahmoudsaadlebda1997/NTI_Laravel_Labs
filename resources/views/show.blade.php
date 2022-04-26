@@ -13,14 +13,22 @@
 <body>
 
 <div class="container">
-    <h2>Create New Task</h2>
+    <h2>Ur Posts Task</h2>
 
-<h2>
-    Content is {{$form_data['title']}}
+<h2 class="container">
+    Title is {{$form_data['title']}}
 </h2><br>
-<h2>
+<h2 class="container">
     Content is {{$form_data['content']}}
 </h2>
+<div class="container">
+
+    <img style="width:600px;height:292px text-align:center; margin-left:90px;" src="{{asset('images/'.$form_data['image'])}}"> 
+</div>
+{{-- <img src="app/public/images/{{$form_data['image']}}"> --}}
+
+    {{-- <?php echo '<img src="app/public/images/'.$form_data['image'].'" alt="HTML5 Icon" style="width:200px;height:92px text-align:center; margin-left:90px;">';?> --}}
+
 </div>
 
 </body>

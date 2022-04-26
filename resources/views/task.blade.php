@@ -17,12 +17,16 @@
 
     <form   method="POST" action="<?php echo url('posts/store')?>" enctype="multipart/form-data">
         @csrf
+        @if ($errors->any()) <div class="alert alert-danger"> <ul> @foreach ($errors->all() as $error) <li>{{ $error }}</li> @endforeach </ul> </div> @endif 
         <div class="form-group">
             <label for="exampleInputName">Title</label>
             <input type="text" class="form-control"  id="exampleInputName" aria-describedby="" name="title"
                    placeholder="Enter Title">
         </div>
-
+        <div class="form-group">
+            Select Image to upload:
+            <input type="file" name="image" id="fileToUpload">
+            </div>
 
         <div class="form-group">
             <label for="exampleInputEmail">Content</label>
