@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Support\Facades\Cookie;
+use App\Models\Blog;
 
 class PostController extends Controller
 {
@@ -16,26 +17,30 @@ class PostController extends Controller
            $validated = $request->validate([
             'title' => 'required|string|regex:/^[A-Za-z]/',
             'content' => 'required|min:50',
-            'image' => 'required|file|image'
+            'image' => 'required|file|image|mimes:png,jpg,jpeg'
             
         ]);
-        if($file = $request->hasFile('image')) {
-            $imageType    = $_FILES['image']['type'];
-            $typesInfo  =  explode('/', $imageType);    
-            $extension  =  strtolower(end($typesInfo));      
-            $file = $request->file('image') ;
-            $fileName = $file->getClientOriginalName() ;
-            $FinalName = time() . rand() . '.' . $extension;
-            $destinationPath = public_path().'/images' ;
-            $file->move($destinationPath,$FinalName);
-    }
-        $form_data['title'] = $request->title;
-        $form_data['content'] = $request->content;
-        $form_data['image'] = $FinalName;
-        $cookie = Cookie::make('title', $form_data['title'], 120);
-        $cookie = Cookie::make('content', $form_data['content'], 120);
-        $cookie = Cookie::make('image', $form_data['image'], 120);
-        return view('show', compact('form_data'));
 
+    $image = $request->file('image');
+    $image_name = $image->getClientOriginalName();
+    $image->move(public_path('/images'),$image_name);
+
+    $validated['image'] = $image_name;
+
+
+
+        $op = Blog ::create($validated);
+        if($op){
+            dd('Raw Inserted');
+        }else{
+            dd('Error Try Again');
+        }
+        
+    }
+    function  index(){
+
+        $data =  Blog :: get();  // select * from users 
+          
+        return view('show',['data' => $data]);
     }
 }
